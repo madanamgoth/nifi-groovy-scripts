@@ -1,133 +1,150 @@
-import org.apache.nifi.processor.io.StreamCallback
-import java.nio.charset.StandardCharsets
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
-import java.io.IOException
+import org.apache.nifi.processor.io.InputStreamCallback
+import org.apache.nifi.processor.io.OutputStreamCallback
+import java.nio.charset.StandardCharsets
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.InputStream
 import java.io.OutputStream
+import java.io.IOException
 
-def flowFile = session.get()
-if (!flowFile) return
+final Logger log = LoggerFactory.getLogger('GraphProcessor')
 
-try {
-    // 1. Read the incoming graph from the flow file content
-    def graphJson = flowFile.read().getText(StandardCharsets.UTF_8)
-    def graph = new JsonSlurper().parseText(graphJson)
+def processGraph(final InputStream inputStream) {
+    def text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8)
+    def slurper = new JsonSlurper()
+    def graph = slurper.parseText(text)
 
-    // --- Start of the graph processing logic from before ---
-
-    // 2. Create lookup maps for efficient access
-    def nodesMap = graph.collectEntries { [(it.id): it] }
+    def nodesMap = [:]
+    for (int i = 0; i < graph.size(); i++) {
+        def node = graph[i]
+        nodesMap[node.id] = node
+    }
+    
     def childToParentMap = [:]
-    nodesMap.each { nodeId, node ->
-        node.transitions.each { transitionKey, transitionValue ->
-            def children = transitionValue instanceof Map ? transitionValue.values() : [transitionValue]
-            children.each { childId ->
-                if (childId instanceof String) {
-                    childToParentMap[childId] = [parentId: nodeId, choice: transitionKey]
+    def startNode = null
+    for (int i = 0; i < graph.size(); i++) {
+        def node = graph[i]
+        if (node.type == 'START') {
+            startNode = node
+            break
+        }
+    }
+    def startNodeChoice = (startNode && startNode.transitions) ? startNode.transitions.keySet().first() : null
+
+    for (def parentId in nodesMap.keySet()) {
+        def parentNode = nodesMap[parentId]
+        if (parentNode.transitions) {
+            for (def choice in parentNode.transitions.keySet()) {
+                def target = parentNode.transitions[choice]
+                if (target instanceof String) {
+                    childToParentMap[target] = [parentId: parentId, choice: choice]
+                } else if (target instanceof Map) {
+                    for (def nestedChoice in target.keySet()) {
+                        def nestedTarget = target[nestedChoice]
+                        childToParentMap[nestedTarget] = [parentId: parentId, choice: choice]
+                    }
                 }
             }
         }
     }
 
-    def allPathsMetadata = [:]
-    def compositeCodeMap = [:]
-
-    // 3. Iterate through each node to generate its path metadata
-    nodesMap.each { nodeId, node ->
-        if (node.transitions.get("compositeCode")) {
-            compositeCodeMap[node.transitions.compositeCode] = nodeId
-        }
-
-        def pathSequence = []
-        def requiredInputs = []
-        def fixedChoices = []
-        boolean isDynamicPath = false
-        def automationTargetNode = nodeId
-        def currentNodeId = nodeId
-        
-        while (currentNodeId != null && nodesMap[currentNodeId]?.type != 'START') {
-            def parentInfo = childToParentMap[currentNodeId]
-            if (!parentInfo) break
-            def parentNode = nodesMap[parentInfo.parentId]
-            if (!parentNode) break
-
-            if (isDynamicPath) {
-                currentNodeId = parentInfo.parentId
-                continue
-            }
-            
-            if (parentNode.type == 'DYNAMIC-MENU') {
-                isDynamicPath = true
-                automationTargetNode = parentNode.id
-                pathSequence.clear()
-                requiredInputs.clear()
-                fixedChoices.clear()
-            } else if (parentNode.type == 'INPUT') {
-                requiredInputs.add(0, [node_id: parentNode.id, attribute: parentNode.transitions.attribute, prompt: parentNode.transitions.prompt])
-                pathSequence.add(0, [type: 'INPUT', attribute: parentNode.transitions.attribute])
-            } else if (parentNode.type == 'MENU') {
-                fixedChoices.add(0, [from_node: parentNode.id, value: parentInfo.choice])
-                pathSequence.add(0, [type: 'MENU_CHOICE', value: parentInfo.choice, from_node: parentNode.id])
-            }
-            
-            currentNodeId = parentInfo.parentId
-        }
-
-        allPathsMetadata[nodeId] = [
-            automation_target_node: automationTargetNode,
-            is_dynamic_path: isDynamicPath,
-            path_sequence: pathSequence,
-            required_inputs: requiredInputs,
-            fixed_choices: fixedChoices
-        ]
-    }
-
-    // --- End of the graph processing logic ---
-
-    // 4. Generate the list of Redis command objects
     def redisCommands = []
 
-    // Add commands for individual nodes
-    nodesMap.each { nodeId, nodeData ->
-        redisCommands.add([
-            command: "JSON.SET",
-            key: "node:${nodeId}",
-            path: "\$",
-            value: JsonOutput.toJson(nodeData) // Value as a JSON string
-        ])
+    for (def nodeId in nodesMap.keySet()) {
+        def node = nodesMap[nodeId]
+        if (node.compositCode) {
+            List<String> choicePathParts = []
+            String currentNodeId = node.id
+
+            while (currentNodeId != null) {
+                def currentNode = nodesMap[currentNodeId]
+                if (currentNode.type == 'START') {
+                    break
+                }
+                
+                def parentEdge = childToParentMap[currentNodeId]
+                if (parentEdge == null) {
+                    log.warn("Could not find parent for node ID: ${currentNodeId}. Path may be incomplete.")
+                    break
+                }
+
+                def parentNode = nodesMap[parentEdge.parentId]
+                
+                if (parentNode.type == 'DYNAMIC-MENU') {
+                    choicePathParts.add(0, parentEdge.choice)
+                    break 
+                }
+                
+                if (parentNode.type != 'ACTION' && parentNode.type != 'START') {
+                    if (parentNode.type == 'INPUT') {
+                        def attribute = parentNode.storeAttribute ?: parentNode.nextNodeStoreAttribute
+                        choicePathParts.add(0, attribute ? "\${${attribute}}" : "*")
+                    } else {
+                        choicePathParts.add(0, parentEdge.choice)
+                    }
+                }
+                
+                currentNodeId = parentEdge.parentId
+            }
+
+            def choicePath = choicePathParts.join('*')
+            
+            if (startNodeChoice) {
+                choicePath = "*${startNodeChoice}*${choicePath}"
+            }
+
+            // Clean up any double separators that might occur
+            choicePath = choicePath.replaceAll("\\*\\*+", "*")
+
+            choicePath += "#"
+
+            def fieldKey = "*${startNodeChoice}*${node.compositCode}#"
+
+            redisCommands.add([
+                command: "HSET",
+                key: "composite_long_codes",
+                field: fieldKey,
+                value: choicePath
+            ])
+        }
     }
+    return redisCommands
+}
 
-    // Add commands for composite codes
-    compositeCodeMap.each { code, nodeId ->
-        redisCommands.add([
-            command: "HSET",
-            key: "composite_codes",
-            field: code,
-            value: nodeId
-        ])
+// --- Main script execution block using the proven pattern ---
+def flowFile = session.get()
+if (!flowFile) {
+    return
+}
+
+try {
+    // 1. Read the input FlowFile and get the results into a variable.
+    def redisCommandsHolder = new Object() { List value }
+    session.read(flowFile, new InputStreamCallback() {
+        @Override
+        void process(InputStream in) throws IOException {
+            redisCommandsHolder.value = processGraph(in)
+        }
+    })
+
+    // 2. Check if the result is valid.
+    if (redisCommandsHolder.value) {
+        // 3. Write the result to the FlowFile, modifying it in place.
+        flowFile = session.write(flowFile, new OutputStreamCallback() {
+            @Override
+            void process(OutputStream out) throws IOException {
+                out.write(JsonOutput.toJson(redisCommandsHolder.value).getBytes(StandardCharsets.UTF_8))
+            }
+        })
+        session.transfer(flowFile, REL_SUCCESS)
+    } else {
+        log.warn("Processing did not generate any Redis commands for FlowFile ${flowFile.id}")
+        session.transfer(flowFile, REL_FAILURE)
     }
-
-    // Add commands for path metadata
-    allPathsMetadata.each { nodeId, metadata ->
-        redisCommands.add([
-            command: "JSON.SET",
-            key: "path_meta:${nodeId}",
-            path: "\$",
-            value: JsonOutput.toJson(metadata) // Value as a JSON string
-        ])
-    }
-
-    // 5. Write the JSON array of commands to the output flow file
-    flowFile = session.write(flowFile, { outputStream ->
-        outputStream.write(JsonOutput.toJson(redisCommands).getBytes(StandardCharsets.UTF_8))
-    } as StreamCallback)
-    
-    session.transfer(flowFile, REL_SUCCESS)
-    log.info("Successfully generated ${redisCommands.size()} Redis commands.")
-
-} catch (Exception e) {
-    log.error("Error during Graph Processing script: " + e.getMessage(), e)
+} catch (e) {
+    log.error("Failed to process graph for FlowFile ${flowFile.id}", e)
     flowFile = session.penalize(flowFile)
     session.transfer(flowFile, REL_FAILURE)
 }
