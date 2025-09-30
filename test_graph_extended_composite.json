@@ -1,0 +1,306 @@
+[
+  {
+    "id": "111",
+    "type": "START",
+    "transitions": {
+      "111": "menu_1759209578401_876"
+    },
+    "nextNodeType": "MENU",
+    "nextNodePrompts": {
+      "en": "1. Send Money\n2. Check Balance\n3. Pay Bills\n4. Account Info"
+    }
+  },
+  {
+    "id": "menu_1759209578401_876",
+    "type": "MENU",
+    "compositCode": "1001",
+    "transitions": {
+      "1": "input_1759209589651_755",
+      "2": "menu_1759210387739_856",
+      "3": "end_1759210942311_724",
+      "4": "end_1759210963392_280"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your SENMONEY AMOUNT:"
+        },
+        "nextNodeStoreAttribute": "SENDMONEYAMOUNT"
+      },
+      "2": {
+        "nextNodeType": "MENU",
+        "nextNodePrompts": {
+          "en": "1. 2nd Send Money\n2. 2nd Check Balance\n3. 2nd Pay Bills\n4. 2nd Account Info"
+        }
+      },
+      "3": {
+        "nextNodeType": "END",
+        "nextNodePrompts": {
+          "en": "Thank you for using our service! your balance is 000"
+        }
+      },
+      "4": {
+        "nextNodeType": "END",
+        "nextNodePrompts": {
+          "en": "Thank you for using our service! your account is madan"
+        }
+      }
+    }
+  },
+  {
+    "id": "menu_1759210317410_149",
+    "type": "MENU",
+    "compositCode": "9977",
+    "transitions": {
+      "1": "input_1759210815896_572",
+      "3": "input_1759211112635_785"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your input IMT PIN:"
+        },
+        "nextNodeStoreAttribute": "IMTPIN"
+      },
+      "3": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your IMT BILLER NUMBER:"
+        },
+        "nextNodeStoreAttribute": "IMTBILLERNUMNER"
+      }
+    }
+  },
+  {
+    "id": "menu_1759210387739_856",
+    "type": "MENU",
+    "compositCode": "2001",
+    "transitions": {
+      "1": "input_1759210417371_459",
+      "2": "menu_1759210539962_585",
+      "3": "input_1759211001599_382",
+      "4": "end_1759211072841_862"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your 2nd SEND MONEY:"
+        },
+        "nextNodeStoreAttribute": "SENDMONEY2"
+      },
+      "2": {
+        "nextNodeType": "MENU",
+        "nextNodePrompts": {
+          "en": "1. COM Send Money\n2. previous menu"
+        }
+      },
+      "3": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your bill number:"
+        },
+        "nextNodeStoreAttribute": "BILLER NUMBER"
+      },
+      "4": {
+        "nextNodeType": "END",
+        "nextNodePrompts": {
+          "en": "Thank you for using our service! you accou tinfo is madan"
+        }
+      }
+    }
+  },
+  {
+    "id": "menu_1759210539962_585",
+    "type": "MENU",
+    "compositCode": "3001",
+    "transitions": {
+      "1": "input_1759210609513_419",
+      "2": "menu_1759210387739_856"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your COM SEND MONEY:"
+        },
+        "nextNodeStoreAttribute": "COMSENDMONEYPIN"
+      },
+      "2": {
+        "nextNodeType": "MENU",
+        "nextNodePrompts": {
+          "en": "1. 2nd Send Money\n2. 2nd Check Balance\n3. 2nd Pay Bills\n4. 2nd Account Info"
+        }
+      }
+    }
+  },
+  {
+    "id": "input_1759209589651_755",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759209597056_205"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your SENDMONEY MOBILE NUMBER:"
+    },
+    "nextNodeStoreAttribute": "SENDMONEYMSISDN",
+    "storeAttribute": "SENDMONEYAMOUNT"
+  },
+  {
+    "id": "input_1759209597056_205",
+    "type": "INPUT",
+    "transitions": {
+      "*": "menu_1759210317410_149"
+    },
+    "nextNodeType": "MENU",
+    "nextNodePrompts": {
+      "en": "1. IMT Send Money\n2. IMT Check Balance\n3. IMT Pay Bills\n4. IMT Account Info"
+    },
+    "storeAttribute": "SENDMONEYMSISDN"
+  },
+  {
+    "id": "input_1759210417371_459",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759210422371_521"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your 2nd sendmoney amount:"
+    },
+    "nextNodeStoreAttribute": "SENDMONEYAMOUNT",
+    "storeAttribute": "SENDMONEY2"
+  },
+  {
+    "id": "input_1759210422371_521",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759210424456_434"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your 2nd send money msisdn:"
+    },
+    "nextNodeStoreAttribute": "SENDMONEYMSISDN2",
+    "storeAttribute": "SENDMONEYAMOUNT"
+  },
+  {
+    "id": "input_1759210424456_434",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759210707296_238"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! 2nd menu"
+    },
+    "storeAttribute": "SENDMONEYMSISDN2"
+  },
+  {
+    "id": "input_1759210609513_419",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759210741276_102"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! COM"
+    },
+    "storeAttribute": "COMSENDMONEYPIN"
+  },
+  {
+    "id": "input_1759210815896_572",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759210817919_839"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your IMT AMOUNT:"
+    },
+    "nextNodeStoreAttribute": "IMTAMOUNT",
+    "storeAttribute": "IMTPIN"
+  },
+  {
+    "id": "input_1759210817919_839",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759210822704_318"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your imt MSISDN:"
+    },
+    "nextNodeStoreAttribute": "IMTMSISDN",
+    "storeAttribute": "IMTAMOUNT"
+  },
+  {
+    "id": "input_1759210822704_318",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759210830016_765"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! IMT"
+    },
+    "storeAttribute": "IMTMSISDN"
+  },
+  {
+    "id": "input_1759211001599_382",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759211026621_661"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! BILLPAY IS OK"
+    },
+    "storeAttribute": "BILLER NUMBER"
+  },
+  {
+    "id": "end_1759210707296_238",
+    "type": "END",
+    "compositCode": "4001",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210741276_102",
+    "compositCode": "9978",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210830016_765",
+    "type": "END",
+    "compositCode": "5001",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210942311_724",
+    "type": "END",
+    "compositCode": "6001",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210963392_280",
+    "type": "END",
+    "compositCode": "7001",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759211026621_661",
+    "type": "END",
+    "compositCode": "8001",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759211072841_862",
+    "type": "END",
+    "compositCode": "9001",
+    "transitions": {}
+  }
+]

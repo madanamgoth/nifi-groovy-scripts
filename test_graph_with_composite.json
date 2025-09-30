@@ -1,0 +1,468 @@
+[
+  {
+    "id": "111",
+    "type": "START",
+    "transitions": {
+      "111": "menu_1759209578401_876"
+    },
+    "nextNodeType": "MENU",
+    "nextNodePrompts": {
+      "en": "1. Send Money\n2. Check Balance\n3. Pay Bills\n4. Account Info",
+      "es": "1. Enviar Dinero\n2. Consultar Saldo\n3. Pagar Facturas\n4. Info de Cuenta",
+      "fr": "1. Envoyer de l'Argent\n2. Vérifier le Solde\n3. Payer les Factures\n4. Info Compte",
+      "ar": "1. إرسال الأموال\n2. فحص الرصيد\n3. دفع الفواتير\n4. معلومات الحساب"
+    }
+  },
+  {
+    "id": "menu_1759209578401_876",
+    "type": "MENU",
+    "transitions": {
+      "1": "input_1759209589651_755",
+      "2": "menu_1759210387739_856",
+      "3": "end_1759210942311_724",
+      "4": "end_1759210963392_280"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your SENMONEY AMOUNT:",
+          "es": "Por favor ingrese su información:",
+          "fr": "Veuillez saisir votre entrée:",
+          "ar": "يرجى إدخال بياناتك:"
+        },
+        "nextNodeStoreAttribute": "SENDMONEYAMOUNT",
+        "nextNodeTemplateId": null
+      },
+      "2": {
+        "nextNodeType": "MENU",
+        "nextNodePrompts": {
+          "en": "1. 2nd Send Money\n2. 2nd Check Balance\n3. 2nd Pay Bills\n4. 2nd Account Info",
+          "es": "1. Enviar Dinero\n2. Consultar Saldo\n3. Pagar Facturas\n4. Info de Cuenta",
+          "fr": "1. Envoyer de l'Argent\n2. Vérifier le Solde\n3. Payer les Factures\n4. Info Compte",
+          "ar": "1. إرسال الأموال\n2. فحص الرصيد\n3. دفع الفواتير\n4. معلومات الحساب"
+        },
+        "nextNodeStoreAttribute": null,
+        "nextNodeTemplateId": null
+      },
+      "3": {
+        "nextNodeType": "END",
+        "nextNodePrompts": {
+          "en": "Thank you for using our service! your balance is 000",
+          "es": "¡Gracias por usar nuestro servicio!",
+          "fr": "Merci d'utiliser notre service!",
+          "ar": "شكراً لاستخدام خدمتنا!"
+        },
+        "nextNodeStoreAttribute": null,
+        "nextNodeTemplateId": null,
+        "promptsList": [
+          "NODATA"
+        ]
+      },
+      "4": {
+        "nextNodeType": "END",
+        "nextNodePrompts": {
+          "en": "Thank you for using our service! your account is madan",
+          "es": "¡Gracias por usar nuestro servicio!",
+          "fr": "Merci d'utiliser notre service!",
+          "ar": "شكراً لاستخدام خدمتنا!"
+        },
+        "nextNodeStoreAttribute": null,
+        "nextNodeTemplateId": null,
+        "promptsList": [
+          "NODATA"
+        ]
+      }
+    }
+  },
+  {
+    "id": "menu_1759210317410_149",
+    "type": "MENU",
+	"compositCode":"9977",
+    "transitions": {
+      "1": "input_1759210815896_572",
+      "3": "input_1759211112635_785"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your input IMT PIN:",
+          "es": "Por favor ingrese su información:",
+          "fr": "Veuillez saisir votre entrée:",
+          "ar": "يرجى إدخال بياناتك:"
+        },
+        "nextNodeStoreAttribute": "IMTPIN",
+        "nextNodeTemplateId": null
+      },
+      "3": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your IMT BILLER NUMBER:",
+          "es": "Por favor ingrese su información:",
+          "fr": "Veuillez saisir votre entrée:",
+          "ar": "يرجى إدخال بياناتك:"
+        },
+        "nextNodeStoreAttribute": "IMTBILLERNUMNER",
+        "nextNodeTemplateId": null
+      }
+    }
+  },
+  {
+    "id": "menu_1759210387739_856",
+    "type": "MENU",
+    "transitions": {
+      "1": "input_1759210417371_459",
+      "2": "menu_1759210539962_585",
+      "3": "input_1759211001599_382",
+      "4": "end_1759211072841_862"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your 2nd SEND MONEY:",
+          "es": "Por favor ingrese su información:",
+          "fr": "Veuillez saisir votre entrée:",
+          "ar": "يرجى إدخال بياناتك:"
+        },
+        "nextNodeStoreAttribute": "SENDMONEY2",
+        "nextNodeTemplateId": null
+      },
+      "2": {
+        "nextNodeType": "MENU",
+        "nextNodePrompts": {
+          "en": "1. COM Send Money\n2. previous menu",
+          "es": "1. Enviar Dinero\n2. Consultar Saldo\n3. Pagar Facturas\n4. Info de Cuenta",
+          "fr": "1. Envoyer de l'Argent\n2. Vérifier le Solde\n3. Pagar les Factures\n4. Info Compte",
+          "ar": "1. إرسال الأموال\n2. فحص الرصيد\n3. دفع الفواتير\n4. معلومات الحساب"
+        },
+        "nextNodeStoreAttribute": null,
+        "nextNodeTemplateId": null
+      },
+      "3": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your bill number:",
+          "es": "Por favor ingrese su información:",
+          "fr": "Veuillez saisir votre entrée:",
+          "ar": "يرجى إدخال بياناتك:"
+        },
+        "nextNodeStoreAttribute": "BILLER NUMBER",
+        "nextNodeTemplateId": null
+      },
+      "4": {
+        "nextNodeType": "END",
+        "nextNodePrompts": {
+          "en": "Thank you for using our service! you accou tinfo is madan",
+          "es": "¡Gracias por usar nuestro servicio!",
+          "fr": "Merci d'utiliser notre service!",
+          "ar": "شكراً لاستخدام خدمتنا!"
+        },
+        "nextNodeStoreAttribute": null,
+        "nextNodeTemplateId": null,
+        "promptsList": [
+          "NODATA"
+        ]
+      }
+    }
+  },
+  {
+    "id": "menu_1759210539962_585",
+    "type": "MENU",
+    "transitions": {
+      "1": "input_1759210609513_419",
+      "2": "menu_1759210387739_856"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "INPUT",
+        "nextNodePrompts": {
+          "en": "Please enter your COM SEND MONEY:",
+          "es": "Por favor ingrese su información:",
+          "fr": "Veuillez saisir votre entrée:",
+          "ar": "يرجى إدخال بياناتك:"
+        },
+        "nextNodeStoreAttribute": "COMSENDMONEYPIN",
+        "nextNodeTemplateId": null
+      },
+      "2": {
+        "nextNodeType": "MENU",
+        "nextNodePrompts": {
+          "en": "1. 2nd Send Money\n2. 2nd Check Balance\n3. 2nd Pay Bills\n4. 2nd Account Info",
+          "es": "1. Enviar Dinero\n2. Consultar Saldo\n3. Pagar Facturas\n4. Info de Cuenta",
+          "fr": "1. Envoyer de l'Argent\n2. Vérifier le Solde\n3. Pagar les Factures\n4. Info Compte",
+          "ar": "1. إرسال الأموال\n2. فحص الرصيد\n3. دفع الفواتير\n4. معلومات الحساب"
+        },
+        "nextNodeStoreAttribute": null,
+        "nextNodeTemplateId": null
+      }
+    }
+  },
+  {
+    "id": "menu_1759210649493_156",
+    "type": "MENU",
+    "transitions": {
+      "1": "end_1759210769876_206",
+      "2": "menu_1759210317410_149"
+    },
+    "nextNodesMetadata": {
+      "1": {
+        "nextNodeType": "END",
+        "nextNodePrompts": {
+          "en": "Thank you for using our service! MADAN",
+          "es": "¡Gracias por usar nuestro servicio!",
+          "fr": "Merci d'utiliser notre service!",
+          "ar": "شكراً لاستخدام خدمتنا!"
+        },
+        "nextNodeStoreAttribute": null,
+        "nextNodeTemplateId": null,
+        "promptsList": [
+          "NODATA"
+        ]
+      },
+      "2": {
+        "nextNodeType": "MENU",
+        "nextNodePrompts": {
+          "en": "1. IMT Send Money\n2. IMT Check Balance\n3. IMT Pay Bills\n4. IMT Account Info",
+          "es": "1. Enviar Dinero\n2. Consultar Saldo\n3. Pagar Facturas\n4. Info de Cuenta",
+          "fr": "1. Envoyer de l'Argent\n2. Vérifier le Solde\n3. Pagar les Factures\n4. Info Compte",
+          "ar": "1. إرسال الأموال\n2. فحص الرصيد\n3. دفع الفواتير\n4. معلومات الحساب"
+        },
+        "nextNodeStoreAttribute": null,
+        "nextNodeTemplateId": null
+      }
+    }
+  },
+  {
+    "id": "input_1759209589651_755",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759209597056_205"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your SENDMONEY MOBILE NUMBER:",
+      "es": "Por favor ingrese su información:",
+      "fr": "Veuillez saisir votre entrée:",
+      "ar": "يرجى إدخال بياناتك:"
+    },
+    "nextNodeStoreAttribute": "SENDMONEYMSISDN",
+    "storeAttribute": "SENDMONEYAMOUNT"
+  },
+  {
+    "id": "input_1759209597056_205",
+    "type": "INPUT",
+    "transitions": {
+      "*": "menu_1759210317410_149"
+    },
+    "nextNodeType": "MENU",
+    "nextNodePrompts": {
+      "en": "1. IMT Send Money\n2. IMT Check Balance\n3. IMT Pay Bills\n4. IMT Account Info",
+      "es": "1. Enviar Dinero\n2. Consultar Saldo\n3. Pagar Facturas\n4. Info de Cuenta",
+      "fr": "1. Envoyer de l'Argent\n2. Vérifier le Solde\n3. Pagar les Factures\n4. Info Compte",
+      "ar": "1. إرسال الأموال\n2. فحص الرصيد\n3. دفع الفواتير\n4. معلومات الحساب"
+    },
+    "storeAttribute": "SENDMONEYMSISDN"
+  },
+  {
+    "id": "input_1759210417371_459",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759210422371_521"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your 2nd sendmoney amount:",
+      "es": "Por favor ingrese su información:",
+      "fr": "Veuillez saisir votre entrée:",
+      "ar": "يرجى إدخال بياناتك:"
+    },
+    "nextNodeStoreAttribute": "SENDMONEYAMOUNT",
+    "storeAttribute": "SENDMONEY2"
+  },
+  {
+    "id": "input_1759210422371_521",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759210424456_434"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your 2nd send money msisdn:",
+      "es": "Por favor ingrese su información:",
+      "fr": "Veuillez saisir votre entrée:",
+      "ar": "يرجى إدخال بياناتك:"
+    },
+    "nextNodeStoreAttribute": "SENDMONEYMSISDN2",
+    "storeAttribute": "SENDMONEYAMOUNT"
+  },
+  {
+    "id": "input_1759210424456_434",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759210707296_238"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! 2nd menu",
+      "es": "¡Gracias por usar nuestro servicio!",
+      "fr": "Merci d'utiliser notre service!",
+      "ar": "شكراً لاستخدام خدمتنا!"
+    },
+    "promptsList": [
+      "NODATA"
+    ],
+    "storeAttribute": "SENDMONEYMSISDN2"
+  },
+  {
+    "id": "input_1759210609513_419",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759210741276_102"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! COM",
+      "es": "¡Gracias por usar nuestro servicio!",
+      "fr": "Merci d'utiliser notre service!",
+      "ar": "شكراً لاستخدام خدمتنا!"
+    },
+    "promptsList": [
+      "NODATA"
+    ],
+    "storeAttribute": "COMSENDMONEYPIN"
+  },
+  {
+    "id": "input_1759210815896_572",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759210817919_839"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your IMT AMOUNT:",
+      "es": "Por favor ingrese su información:",
+      "fr": "Veuillez saisir votre entrée:",
+      "ar": "يرجى إدخال بياناتك:"
+    },
+    "nextNodeStoreAttribute": "IMTAMOUNT",
+    "storeAttribute": "IMTPIN"
+  },
+  {
+    "id": "input_1759210817919_839",
+    "type": "INPUT",
+    "transitions": {
+      "*": "input_1759210822704_318"
+    },
+    "nextNodeType": "INPUT",
+    "nextNodePrompts": {
+      "en": "Please enter your imt MSISDN:",
+      "es": "Por favor ingrese su información:",
+      "fr": "Veuillez saisir votre entrée:",
+      "ar": "يرجى إدخال بياناتك:"
+    },
+    "nextNodeStoreAttribute": "IMTMSISDN",
+    "storeAttribute": "IMTAMOUNT"
+  },
+  {
+    "id": "input_1759210822704_318",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759210830016_765"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! IMT",
+      "es": "¡Gracias por usar nuestro servicio!",
+      "fr": "Merci d'utiliser notre service!",
+      "ar": "شكراً لاستخدام خدمتنا!"
+    },
+    "promptsList": [
+      "NODATA"
+    ],
+    "storeAttribute": "IMTMSISDN"
+  },
+  {
+    "id": "input_1759211001599_382",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759211026621_661"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! BILLPAY IS OK",
+      "es": "¡Gracias por usar nuestro servicio!",
+      "fr": "Merci d'utiliser notre service!",
+      "ar": "شكراً لاستخدام خدمتنا!"
+    },
+    "promptsList": [
+      "NODATA"
+    ],
+    "storeAttribute": "BILLER NUMBER"
+  },
+  {
+    "id": "input_1759211112635_785",
+    "type": "INPUT",
+    "transitions": {
+      "*": "end_1759211148645_476"
+    },
+    "nextNodeType": "END",
+    "nextNodePrompts": {
+      "en": "Thank you for using our service! IMT BILLPAY",
+      "es": "¡Gracias por usar nuestro servicio!",
+      "fr": "Merci d'utiliser notre service!",
+      "ar": "شكراً لاستخدام خدمتنا!"
+    },
+    "promptsList": [
+      "NODATA"
+    ],
+    "storeAttribute": "IMTBILLERNUMNER"
+  },
+  {
+    "id": "end_1759210707296_238",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210741276_102",
+	"compositCode":"9978",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210769876_206",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210830016_765",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210942311_724",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759210963392_280",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759211026621_661",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759211072841_862",
+    "type": "END",
+    "transitions": {}
+  },
+  {
+    "id": "end_1759211148645_476",
+    "type": "END",
+    "transitions": {}
+  }
+]
