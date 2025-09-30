@@ -75,6 +75,7 @@ try {
             attributes['userSession.isResponseParsingFor400'] = nodeDetails?.nextNodesMetadata?.'400'?.isResponseParsing ?: 'NOT DEFINED'
             attributes['userSession.queryRecordFor200'] = nodeDetails?.nextNodesMetadata?.'200'?.queryRecord ?: 'NOT DEFINED'
             attributes['userSession.queryRecordFor400'] = nodeDetails?.nextNodesMetadata?.'400'?.queryRecord ?: 'NOT DEFINED'
+            attributes['userSession.queryformBodySpec'] = nodeDetails?.queryformBodySpec ?: 'NA'
             break
 
         default:

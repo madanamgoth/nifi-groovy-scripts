@@ -49,7 +49,7 @@ try {
             
             // Write new content
             if (nextNodeValue) {
-                def jsonContent = new JsonBuilder([latestCurrentNode: nextNodeValue]).toPrettyString()
+                def jsonContent = new JsonBuilder([currentNode: nextNodeValue]).toPrettyString()
                 outputStream.write(jsonContent.getBytes(StandardCharsets.UTF_8))
             }
         }
