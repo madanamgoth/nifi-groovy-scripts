@@ -23,27 +23,15 @@ try {
             def nodeDetails = new JsonSlurper().setType(JsonParserType.INDEX_OVERLAY).parse(inputStream)
             
             def language = flowFile.getAttribute('language') ?: 'en'
-            def isParsingFor400 = flowFile.getAttribute('userSession.isResponseParsingFor400') == 'Y'
-            def condition = flowFile.getAttribute('userSession.matchedPath')
             
-            if (isParsingFor400) {
-                // Conditional path for 4xx
-                def finalCondition = condition ?: 'NoMatch'
-                attributes['userSession.nextNode'] = nodeDetails?.transitions?.'400'?."${finalCondition}"
-                def metadata = nodeDetails?.nextNodesMetadata?.'400'?."${finalCondition}"
-                attributes['userSession.nextNodeType'] = metadata?.nextNodeType
-                attributes['userSession.prompts'] = metadata?.nextNodePrompts?."${language}"
-                attributes['userSession.storeAttribute'] = metadata?.nextNodeStoreAttribute
-                attributes['userSession.promptsList'] = metadata?.promptsList ? groovy.json.JsonOutput.toJson(metadata.promptsList) : '["NODATA"]'
-            } else {
                 // Direct path for 4xx (isParsingFor400 is 'N' or not present)
-                attributes['userSession.nextNode'] = nodeDetails?.transitions?.'400'
-                def metadata = nodeDetails?.nextNodesMetadata?.'400'
+                attributes['userSession.nextNode'] = nodeDetails?.transitions?.'500'
+                def metadata = nodeDetails?.nextNodesMetadata?.'500'
                 attributes['userSession.nextNodeType'] = metadata?.nextNodeType
                 attributes['userSession.prompts'] = metadata?.nextNodePrompts?."${language}"
                 attributes['userSession.storeAttribute'] = metadata?.nextNodeStoreAttribute
                 attributes['userSession.promptsList'] = metadata?.promptsList ? groovy.json.JsonOutput.toJson(metadata.promptsList) : '["NODATA"]'
-            }
+            
             
             nextNodeValue = attributes['userSession.nextNode']
             
@@ -64,7 +52,7 @@ try {
     session.transfer(flowFile, REL_SUCCESS)
 
 } catch (Exception e) {
-    log.error("Error in actionTransactionFor400.groovy script", e)
+    log.error("Error in actionTransactionFor500.groovy script", e)
     flowFile = session.penalize(flowFile)
     session.transfer(flowFile, REL_FAILURE)
 }
