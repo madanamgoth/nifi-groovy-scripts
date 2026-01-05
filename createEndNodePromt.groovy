@@ -34,7 +34,7 @@ try {
                         parsedList.each { key ->
                             if (contentJson.containsKey(key)) {
                                 def value = contentJson[key]
-                                finalPrompt = finalPrompt.replace(":" + key, value.toString())
+                                finalPrompt = finalPrompt.replace("\${" + key + "}", value.toString())
                             }
                         }
                     }

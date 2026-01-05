@@ -40,6 +40,7 @@ try {
                 attributes['userSession.prompts'] = nodeDetails?.nextNodesMetadata?."${userInput}"?.nextNodePrompts?."${language}"
             }
             attributes['userSession.storeAttribute'] = nodeDetails?.storeAttribute
+            attributes['userSession.promptsList'] = nodeDetails?.nextNodesMetadata?."${userInput}"?.promptsList ? groovy.json.JsonOutput.toJson(nodeDetails.nextNodesMetadata."${userInput}".promptsList) : '["NODATA"]'
             break
 
         case 'INPUT':
@@ -47,6 +48,7 @@ try {
             attributes['userSession.nextNodeType'] = nodeDetails?.nextNodeType
             attributes['userSession.prompts'] = nodeDetails?.nextNodePrompts?."${language}"
             attributes['userSession.storeAttribute'] = nodeDetails?.storeAttribute
+            attributes['userSession.promptsList'] = nodeDetails?.promptsList ? groovy.json.JsonOutput.toJson(nodeDetails.promptsList) : '["NODATA"]'
             break
 
         case 'START':
@@ -56,6 +58,7 @@ try {
             attributes['userSession.nextNodeType'] = nodeDetails?.nextNodeType
             attributes['userSession.prompts'] = nodeDetails?.nextNodePrompts?."${language}"
             attributes['userSession.storeAttribute'] = nodeDetails?.storeAttribute
+            attributes['userSession.promptsList'] = nodeDetails?.promptsList ? groovy.json.JsonOutput.toJson(nodeDetails.promptsList) : '["NODATA"]'
             break
 
         case 'DYNAMIC-MENU':
@@ -63,6 +66,7 @@ try {
             attributes['userSession.nextNodeType'] = nodeDetails?.nextNodesMetadata?.'*'?.nextNodeType
             attributes['userSession.prompts'] = nodeDetails?.nextNodesMetadata?.'*'?.nextNodePrompts?."${language}"
             attributes['userSession.storeAttribute'] = nodeDetails?.nextNodesMetadata?.'*'?.nextNodeStoreAttribute
+            attributes['userSession.promptsList'] = nodeDetails?.nextNodesMetadata?.'*'?.promptsList ? groovy.json.JsonOutput.toJson(nodeDetails.nextNodesMetadata.'*'.promptsList) : '["NODATA"]'
             break
 
         case 'ACTION':
