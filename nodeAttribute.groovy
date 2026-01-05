@@ -35,12 +35,15 @@ try {
 
         case 'MENU':
             if (userInput) {
-                attributes['userSession.nextNode'] = nodeDetails?.transitions?."${userInput}"
-                attributes['userSession.nextNodeType'] = nodeDetails?.nextNodesMetadata?."${userInput}"?.nextNodeType
-                attributes['userSession.prompts'] = nodeDetails?.nextNodesMetadata?."${userInput}"?.nextNodePrompts?."${language}"
+                // Check if user input exists in transitions, otherwise use default
+                def selectedOption = nodeDetails?.transitions?.containsKey(userInput) ? userInput : 'default'
+                
+                attributes['userSession.nextNode'] = nodeDetails?.transitions?."${selectedOption}"
+                attributes['userSession.nextNodeType'] = nodeDetails?.nextNodesMetadata?."${selectedOption}"?.nextNodeType
+                attributes['userSession.prompts'] = nodeDetails?.nextNodesMetadata?."${selectedOption}"?.nextNodePrompts?."${language}"
+                attributes['userSession.promptsList'] = nodeDetails?.nextNodesMetadata?."${selectedOption}"?.promptsList ? groovy.json.JsonOutput.toJson(nodeDetails.nextNodesMetadata."${selectedOption}".promptsList) : '["NODATA"]'
             }
             attributes['userSession.storeAttribute'] = nodeDetails?.storeAttribute
-            attributes['userSession.promptsList'] = nodeDetails?.nextNodesMetadata?."${userInput}"?.promptsList ? groovy.json.JsonOutput.toJson(nodeDetails.nextNodesMetadata."${userInput}".promptsList) : '["NODATA"]'
             break
 
         case 'INPUT':
