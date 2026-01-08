@@ -74,6 +74,7 @@ try {
 
         case 'ACTION':
             attributes['userSession.templateId'] = nodeDetails?.templateId
+            attributes['userSession.uniq_templateId'] = nodeDetails?.unqi_id
             attributes['userSession.isNextMenuDynamic'] = nodeDetails?.isNextMenuDynamic
             attributes['userSession.menuJolt'] = nodeDetails?.menuJolt
             attributes['userSession.menuName'] = nodeDetails?.menuName
